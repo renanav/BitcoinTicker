@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -42,8 +44,47 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         
         finalURL = baseURL + currencyArray[row] // Prepares the query for the selected currency
         print(finalURL)
+        
+        getBitcoinPrice(url: finalURL)
     }
     
     
+    //MARK: - Networking
+    //    /***************************************************************/
+    
+    func getBitcoinPrice(url: String) {
+        
+        Alamofire.request(url, method: .get)
+            .responseJSON { response in
+                if response.result.isSuccess {
+                    
+                    print("Value retrieved")
+                    let priceJSON : JSON = JSON(response.result.value!)
+                    print(priceJSON)
+                    self.getPriceData(json: priceJSON)
+                    
+                } else {
+                    print("Error: \(String(describing: response.result.error))")
+                    self.bitcoinPriceLabel.text = "Connection Issues"
+                }
+        }
+        
+    }
+    
+    //MARK: - JSON Parsing
+    //    /***************************************************************/
+    
+    func getPriceData(json : JSON) {
+        
+        if let price = json["ask"].double {
+            bitcoinPriceLabel.text = String(price)
+            
+        }
+        else {
+            bitcoinPriceLabel.text = "Price unavailable"
+        }
+        
+        
+        
+    }
 }
-
