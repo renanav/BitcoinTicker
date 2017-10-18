@@ -41,11 +41,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(currencyArray[row])
-        
         finalURL = baseURL + currencyArray[row] // Prepares the query for the selected currency
         print(finalURL)
         
         getBitcoinPrice(url: finalURL)
+    }
+    
+    // To display the name of the currency in the pickers row
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return currencyArray[row]
     }
     
     
