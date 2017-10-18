@@ -82,6 +82,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="p3X-Re-CFC"/>
                     </view>
+                    <connections>
+                        <outlet property="bitcoinPriceLabel" destination="8pm-W9-cdS" id="unx-Gl-mzb"/>
+                        <outlet property="currencyPicker" destination="cCo-Dv-mVB" id="uRb-4D-wDn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DwC-qm-ez3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
