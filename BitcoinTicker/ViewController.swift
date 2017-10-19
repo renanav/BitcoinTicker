@@ -48,10 +48,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         print(finalURL)
         
         //get the value with the selected currency
-        getBitcoinPrice(url: finalURL)
+        getBitcoinData(url: finalURL)
     }
     
-    // To display the name of the currency in the pickers row
+    // To display the name and currency symbol of the currency in the pickers row
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         currencySymbolIndex = currencySymbolArray[row]
         return currencyArray[row]
@@ -61,14 +61,14 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     //MARK: - Networking
     //    /***************************************************************/
     
-    func getBitcoinPrice(url: String) {
+    func getBitcoinData(url: String) {
         
         Alamofire.request(url, method: .get)
             .responseJSON { response in
                 if response.result.isSuccess {
                     
                     print("Value retrieved")
-
+                    
                     let priceJSON : JSON = JSON(response.result.value!)
                     print(priceJSON)
                     self.getPriceData(json: priceJSON)
@@ -86,11 +86,9 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func getPriceData(json : JSON) {
         
-        if let price = json["ask"].double {
+        if let price = json["last"].double {
             bitcoinPriceLabel.text = currencySymbolIndex + String(price)
-            
-        }
-        else {
+        } else {
             bitcoinPriceLabel.text = "Price unavailable"
         }
         
